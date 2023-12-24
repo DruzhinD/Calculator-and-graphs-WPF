@@ -15,7 +15,7 @@
                                 Background="{TemplateBinding Background}">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"
-                                              Content="{TemplateBinding Content}"></ContentPresenter>
+                                              ContentSource="Content"></ContentPresenter>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"
@@ -27,8 +27,7 @@
                             </Trigger>
                             <Trigger Property="IsPressed"
                                      Value="True">
-                                <Setter 
-                                        Property="Background"
+                                <Setter Property="Background"
                                         Value="#FF151414" />
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -44,9 +43,10 @@
             <Setter Property="Margin"
                     Value="10,10,10,10" />
         </Style>
+        
         <!--стиль для кнопок операторов на основе шаблона-->
         <Style x:Key="OperatorButtons"
-            TargetType="Button"
+               TargetType="Button"
                BasedOn="{StaticResource ResourceKey=CalculatorButtonsTemplate}">
             <Setter Property="Background">
                 <Setter.Value>
@@ -60,12 +60,56 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <!--стиль для кнопок цифр на основе шаблона-->
         <Style x:Key="NumberButtons"
                TargetType="Button"
                BasedOn="{StaticResource ResourceKey=CalculatorButtonsTemplate}">
             <Setter Property="Background"
                     Value="#4d3e3e" />
+        </Style>
+        
+        <!--стиль для заголовков табконтрола-->
+        <Style TargetType="TabItem"
+               x:Key="TabHeaderStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid Name="Panel">
+                            <ContentPresenter x:Name="ContentSite"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header"
+                                              Margin="10,2" />
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected"
+                                     Value="True">
+                                <Setter TargetName="Panel"
+                                        Property="Background"
+                                        Value="#110e0e" />
+                            </Trigger>
+                            <Trigger Property="IsSelected"
+                                     Value="False">
+                                <Setter TargetName="Panel"
+                                        Property="Background"
+                                        Value="#282424" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!--стиль для текста заголовка табконтрола-->
+        <Style TargetType="TextBlock"
+               x:Key="TabHeaderTextStyle">
+            <Setter Property="FontSize"
+                    Value="12pt" />
+            <Setter Property="Foreground"
+                    Value="White"/>
+            <Setter Property="FontWeight"
+                    Value="DemiBold"/>
         </Style>
     </Application.Resources>
 </Application>
