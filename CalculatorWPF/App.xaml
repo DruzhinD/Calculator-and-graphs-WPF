@@ -1,0 +1,71 @@
+﻿<Application x:Class="WpfApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfApp"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <!--шаблон для кнопок калькулятора-->
+        <Style TargetType="Button"
+               x:Key="CalculatorButtonsTemplate">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="50"
+                                BorderThickness="1"
+                                Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Content="{TemplateBinding Content}"></ContentPresenter>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="#372c2c">
+                                </Setter>
+
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter 
+                                        Property="Background"
+                                        Value="#FF151414" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="FontSize"
+                    Value="24pt" />
+            <Setter Property="FontWeight"
+                    Value="DemiBold" />
+            <Setter Property="Margin"
+                    Value="10,10,10,10" />
+        </Style>
+        <!--стиль для кнопок операторов на основе шаблона-->
+        <Style x:Key="OperatorButtons"
+            TargetType="Button"
+               BasedOn="{StaticResource ResourceKey=CalculatorButtonsTemplate}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1"
+                                         StartPoint="0,0">
+                        <GradientStop Color="#FF764FA6"
+                                      Offset="1" />
+                        <GradientStop Color="#FF677CE7"
+                                      Offset="0" />
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--стиль для кнопок цифр на основе шаблона-->
+        <Style x:Key="NumberButtons"
+               TargetType="Button"
+               BasedOn="{StaticResource ResourceKey=CalculatorButtonsTemplate}">
+            <Setter Property="Background"
+                    Value="#4d3e3e" />
+        </Style>
+    </Application.Resources>
+</Application>
