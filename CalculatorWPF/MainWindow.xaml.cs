@@ -27,22 +27,30 @@ namespace CalculatorWPF
             InitializeComponent();
         }
 
+        private Calculator calculator;
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            calculator = new Calculator();
             foreach (UIElement button in CalculatorPanel.Children)
             {
                 //проверка на соответствие типов
                 if (button is Button)
                     ((Button)button).Click += ButtonHandler;
             }
-            window.KeyDown += KeyboardHandler;
+            //переводим фокус на панель калькулятора, чтобы активировалась клавиатура
+            CalculatorTab.Focus();
+            CalculatorTab.KeyDown += KeyboardHandler;
         }
 
         private void ButtonHandler(object sender, RoutedEventArgs e)
         {
             //считываем надпись на кнопке
             string content = ((Button)e.OriginalSource).Content.ToString();
-            OutputSymbol(content);
+            if (content == "=")
+                result.Text = calculator.ComputeExpression();
+            input.Text = calculator.CurrentExpression(content);
+            //content = ((Button)sender).Content.ToString();
         }
 
         private void KeyboardHandler(object sender, KeyEventArgs e)
@@ -64,6 +72,7 @@ namespace CalculatorWPF
                     break;
                 case Key.Return:
                     EnteredKey = "=";
+                    result.Text = calculator.ComputeExpression();
                     break;
                 case Key.Delete:
                     EnteredKey = "C";
@@ -90,71 +99,7 @@ namespace CalculatorWPF
 
             //не имеет смысла передавать пустую строку
             if (EnteredKey != string.Empty)
-                OutputSymbol(EnteredKey);
-
-        }
-
-        //метод, выводящий выбранный символ на экран
-        private void OutputSymbol(string symbol)
-        {
-            //массив операторов
-            string[] operators = { "-", "+", "/", "*" };
-
-            //если была нажата кнопка с числом
-            if (int.TryParse(symbol, out int value))
-            {
-                input.Text += value;
-            }
-            //кнопка с оператором
-            else if (input.Text.Length > 0 && operators.Contains(symbol))
-            {
-                //если последний символ в строке уже является оператором
-                if (operators.Contains(input.Text[input.Text.Length - 1].ToString()))
-                {
-                    //если производится попытка заменить оператор, то меняем
-                    if (!input.Text.EndsWith(symbol))
-                        input.Text = input.Text.Substring(0, input.Text.Length - 1) + symbol;
-                }
-                //если последний символ в строке != оператору, то спокойно его добавляем
-                else
-                {
-                    input.Text += symbol;
-                }
-
-            }
-            //если была нажата кнопка, с очисткой окна или с оператором '='
-            else
-            {
-                switch (symbol)
-                {
-                    case "=":
-                        result.Text = ComputeExpression(input.Text, operators);
-                        break;
-                    case "C":
-                        input.Text = "";
-                        break;
-                }
-            }
-        }
-
-        //вычисляет значение выражения
-        private string ComputeExpression(string expression, string[] operators)
-        {
-            foreach (string op in operators)
-            {
-                //оканчивается ли строка оператором
-                while (expression.EndsWith(op))
-                {
-                    //удаляем последний символ в строке (который является оператором)
-                    expression = expression.Remove(expression.Length - 1);
-                }
-            }
-            string solution = new DataTable().Compute(expression, null).ToString();
-
-            if (solution != string.Empty)
-                return solution;
-            else
-                return "0";
+                input.Text = calculator.CurrentExpression(EnteredKey);
         }
     }
 }

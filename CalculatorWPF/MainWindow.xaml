@@ -17,7 +17,8 @@
                     BorderThickness="2">
 
             <!--Калькулятор-->
-            <TabItem Style="{DynamicResource TabHeaderStyle}">
+            <TabItem x:Name="CalculatorTab"
+                     Style="{DynamicResource TabHeaderStyle}">
                 <!--Заголовок-->
                 <TabItem.Header>
                     <TextBlock Style="{StaticResource TabHeaderTextStyle}"
