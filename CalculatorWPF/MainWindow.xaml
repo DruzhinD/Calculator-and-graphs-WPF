@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalculatorWPF"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="640"
@@ -152,8 +153,87 @@
             <TabItem Style="{DynamicResource TabHeaderStyle}">
                 <TabItem.Header>
                     <TextBlock Style="{StaticResource TabHeaderTextStyle}"
-                               Text="Др панель" />
+                               Text="Графики" />
                 </TabItem.Header>
+                <TabItem.Content>
+
+                    <!--общий грид-->
+                    <Grid Background="#FF2F2727">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="10*" />
+                        </Grid.RowDefinitions>
+
+                        <!--грид для части со вводом данных-->
+                        <Border BorderBrush="Black"
+                                BorderThickness="0,0,0,3">
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+
+                                <!--ввод данных-->
+                                <TextBlock Grid.Row="0"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="Введите линейную или степенную функцию"
+                                           FontSize="18"
+                                           Foreground="White"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center" />
+
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal">
+                                    <Label Content="Y="
+                                           Foreground="White"
+                                           FontSize="18" />
+                                    <TextBox x:Name="inputFunction"
+                                             TextWrapping="Wrap"
+                                             Foreground="White"
+                                             Background="#FF5A4444"
+                                             BorderBrush="#FF464F6B"
+                                             FontSize="18"
+                                             MinWidth="100"
+                                             Width="200"
+                                             BorderThickness="3"
+                                             Margin="3"/>
+                                </StackPanel>
+                                <Button x:Name="buttonCreateGraphic"
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        Content="Построить"
+                                        FontSize="16pt"
+                                        Foreground="White"
+                                        Background="#FF442A2A"
+                                        FontWeight="Bold" 
+                                        Margin="3"
+                                        BorderThickness="3"/>
+                            </Grid>
+                        </Border>
+
+
+                        <!--график-->
+                        <lvc:CartesianChart x:Name="Graphic"
+                                            LegendLocation="Bottom"
+                                            Grid.Row="1">
+                            <lvc:CartesianChart.DataTooltip>
+                                <lvc:DefaultTooltip BulletSize="20"
+                                                    FontSize="14pt"/>
+                            </lvc:CartesianChart.DataTooltip>
+                            <lvc:CartesianChart.ChartLegend>
+                                <lvc:DefaultLegend FontSize="16pt"
+                                                   Foreground="White"/>
+                            </lvc:CartesianChart.ChartLegend>
+                        </lvc:CartesianChart>
+
+
+                    </Grid>
+                </TabItem.Content>
             </TabItem>
         </TabControl>
     </Grid>

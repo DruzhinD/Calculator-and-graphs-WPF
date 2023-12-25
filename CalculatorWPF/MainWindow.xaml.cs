@@ -14,6 +14,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using System.Text.RegularExpressions;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Linq.Expressions;
+using System.Xml;
 
 namespace CalculatorWPF
 {
@@ -41,7 +45,11 @@ namespace CalculatorWPF
             //переводим фокус на панель калькулятора, чтобы активировалась клавиатура
             CalculatorTab.Focus();
             CalculatorTab.KeyDown += KeyboardHandler;
+
+            buttonCreateGraphic.Click += CreateChart;
         }
+
+        #region Калькулятор
 
         private void ButtonHandler(object sender, RoutedEventArgs e)
         {
@@ -100,6 +108,52 @@ namespace CalculatorWPF
             //не имеет смысла передавать пустую строку
             if (EnteredKey != string.Empty)
                 input.Text = calculator.CurrentExpression(EnteredKey);
+        }
+        #endregion
+
+        //Построить график
+        private void CreateChart(object sender, RoutedEventArgs e)
+        {
+            //получаем введенную функцию
+            string func = inputFunction.Text;
+
+            //ось X
+            Axis axisX = new Axis()
+            {
+                Labels = new List<string>()
+            };
+            //ось Y (значения)
+            ChartValues<double> axisY = new ChartValues<double>();
+
+            for (int i = -50; i <= 50; i++)
+            {
+                axisX.Labels.Add(i.ToString());
+
+                //заменяем необходимый символ в выражении
+                string tempFunc = func.Replace("x", i.ToString());
+                //вычисляем значение функции
+                try
+                {
+                    double y = int.Parse(new DataTable().Compute(tempFunc, null).ToString());
+                    axisY.Add(y);
+                }
+                catch(DivideByZeroException ex) { }
+            }
+
+            //новая линия, текущая функция
+            SeriesCollection series = new SeriesCollection()
+            {
+                new LineSeries()
+                {
+                    Title = func,
+                    Values = new ChartValues<double>(axisY),
+                    FontSize = 10,
+                    Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)),
+                },
+                
+            };
+            Graphic.Series = series;
+            Graphic.AxisX.Add(axisX);
         }
     }
 }
