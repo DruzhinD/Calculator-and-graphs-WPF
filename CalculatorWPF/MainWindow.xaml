@@ -181,7 +181,8 @@
                                 <TextBlock Grid.Row="0"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
-                                           Text="Введите линейную или степенную функцию"
+                                           Text="Введите линейную или степенную функцию
+                                           (где x - переменная)"
                                            FontSize="18"
                                            Foreground="White"
                                            TextWrapping="Wrap"
