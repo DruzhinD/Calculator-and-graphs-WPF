@@ -125,19 +125,22 @@ namespace CalculatorWPF
             //ось Y (значения)
             ChartValues<double> axisY = new ChartValues<double>();
 
-            for (int i = -50; i <= 50; i++)
+            try
             {
-                axisX.Labels.Add(i.ToString());
-
-                //заменяем необходимый символ в выражении
-                string tempFunc = func.Replace("x", i.ToString());
-                //вычисляем значение функции
-                try
+                for (int i = -50; i <= 50; i++)
                 {
-                    double y = int.Parse(new DataTable().Compute(tempFunc, null).ToString());
+                    axisX.Labels.Add(i.ToString());
+
+                    //заменяем необходимый символ в выражении
+                    string tempFunc = func.Replace("x", i.ToString());
+                    //вычисляем значение функции
+                    double y = double.Parse(new DataTable().Compute(tempFunc, null).ToString());
                     axisY.Add(y);
                 }
-                catch(DivideByZeroException ex) { }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Неверно задан формат функции или данная функция не поддерживается.");
             }
 
             //новая линия, текущая функция
@@ -153,6 +156,7 @@ namespace CalculatorWPF
                 
             };
             Graphic.Series = series;
+            Graphic.AxisX.Clear();
             Graphic.AxisX.Add(axisX);
         }
     }
