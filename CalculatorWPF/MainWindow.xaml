@@ -153,7 +153,7 @@
             <TabItem Style="{DynamicResource TabHeaderStyle}">
                 <TabItem.Header>
                     <TextBlock Style="{StaticResource TabHeaderTextStyle}"
-                               Text="Графики" />
+                               Text="Построение графиков" />
                 </TabItem.Header>
                 <TabItem.Content>
 
