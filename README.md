@@ -5,5 +5,5 @@
 * Калькулятор <br>
 ![Окно калькулятора](screenshots/calculator.png "calc")
 
-* Графики <br>
+* Построение графиков <br>
 ![Окно построения графиков](screenshots/graphs.png "graphs")
